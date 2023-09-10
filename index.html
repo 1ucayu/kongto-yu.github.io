@@ -70,6 +70,12 @@
             font-weight: bold;
         }
 
+        mapbody{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .circle{
             width: 240px; 
             height: 240px; 
@@ -85,7 +91,6 @@
         .map-container {
             width: 10%; 
             height: auto;
-            left: 50%;
         }
         
     </style>
@@ -405,12 +410,12 @@
                     </tr>
                     </tbody>
                 </table> -->
+        <mapbody>
             <div class = "map-container">
                 <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=6QKN_nC6F0jSdJhkZsNqotd_TbAMZjnB7SKlhAnRgCk" data-cm-percentage="50"></script>
                 
             </div>
-            
-
+        </mapbody>
 
 
             <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
