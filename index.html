@@ -1,8 +1,51 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <!-- saved from url=(0029)https://www.jiangtaoyu.com/ -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Section</title>
+    <style>
+        .news-content {
+            display: none;
+            text-align: justify;
+        }
+
+        .toggle-button {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .toggle-button:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+
 <html>
+    <script>
+        function toggleNews() {
+            var newsContent = document.getElementById("previousNews");
+            var toggleButton = document.querySelector(".toggle-button");
+
+            if (newsContent.style.display === "none" || newsContent.style.display === "") {
+                newsContent.style.display = "block";
+                toggleButton.textContent = "COLLAPSE";
+            } else {
+                newsContent.style.display = "none";
+                toggleButton.textContent = "EXPAND";
+            }
+        }
+
+    </script>
+
     <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script async="" src="./Jiangtao Yu_files/analytics.js.下载"></script><script>
+    <!-- <script async="" src="./Jiangtao Yu_files/analytics.js"></script><script>
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function () {
@@ -17,7 +60,7 @@
 
         ga('create', 'UA-108114467-1', 'auto');
         ga('send', 'pageview');
-    </script>
+    </script> -->
     <meta name="viewport" content="“width=800”">
     <meta name="generator" content="HTML Tidy for Linux/x86 (vers 11 February 2007), see www.w3.org">
     <link href="./Jiangtao Yu_files/css" rel="stylesheet">
@@ -106,7 +149,8 @@
     <tbody><tr>
         <td halign="center">
             <p align="center">
-                <font size="6">Luca Yu</font>
+                <font size="8"><TT>lucayu</TT></font><br><br>
+                <font size="4"><TT>[AT] connect [DOT] hku [DOT] hk</TT></font>
             </p>
         </td>
     </tr>
@@ -118,27 +162,27 @@
 
 
                         <p>
-                            Hey! I am Luca Jiang-Tao Yu, a Ph.D. student at <a href="https://aiot.hku.hk/">AIoT Lab</a>, <a href="https://www.cs.hku.hk/">Department of CS, HKU</a>, advised by 
+                            Hey! I am Luca Jiang-Tao Yu, a PhD student at <a href="https://aiot.hku.hk/">AIoT Lab</a>, <a href="https://www.cs.hku.hk/">SCDS, HKU</a>, advised by 
                             <a href="https://cswu.me/">Prof. Chenshu Wu</a>. Previously, I was a research intern at <a href="http://group.iiis.tsinghua.edu.cn/~marslab/#/">MARS Lab</a>, 
-                            <a href="https://iiis.tsinghua.edu.cn/en/">IIIS, THU</a>, advised by <a href="https://hangzhaomit.github.io/">Prof. Hang Zhao</a>. Before that, I was a research intern 
-                            at Intelligent Comm. Software and Multimedia Key Lab, BUPT, advised by <a href="https://teacher.bupt.edu.cn/zhouanfu/en/index.htm">Prof. Anfu Zhou</a>.
+                            <a href="https://iiis.tsinghua.edu.cn/en/">IIIS, THU</a>, advised by <a href="https://hangzhaomit.github.io/">Prof. Hang Zhao</a>. 
+                            Before that, I was a research intern at Intelligent Comm. Software and Multimedia Key Lab, BUPT, advised by <a href="https://teacher.bupt.edu.cn/zhouanfu/en/index.htm">Prof. Anfu Zhou</a>.
                         </p>
                         
 
                         <p>    
-                            I am especially interested in 
-                            multi-modality/sensor machine learning and wireless AI perception, 
-                            including signal processing, acoustic sensing, and novel works 
-                            combining various modalities.
+                            My research focuses on signal processing & machine learning co-design,
+                            acoustic sensing applications and mmWave radar sensing.
+                            <!-- multi-modality/sensor machine learning and wireless AI perception,  -->
+                            <!-- including signal processing, acoustic sensing, and novel works  -->
+                            <!-- combining various modalities. -->
                         </p>
-                            
 
         
                         </p><p align="center">
                             <!-- <a href="files/cv.pdf">CV</a> | -->
                             <a href="./Jiangtao Yu_files/cv.pdf">CV</a> |
                             <a href="https://www.linkedin.com/in/luca-jiang-tao-yu-806b91221/">LinkedIn</a> |
-                            <a href="mailto:lucayu@connect.hku.hk">E-Mail</a> |
+                            <!-- <a href="mailto:lucayu@connect.hku.hk">E-Mail</a> | -->
                             <a href="https://scholar.google.com/citations?user=VfJOVWsAAAAJ&hl=en">Google Scholar</a> |
                             <a href="https://github.com/kongto-yu">GitHub</a> |
                             <a href="https://twitter.com/kongto_yu">𝕏</a>
@@ -206,72 +250,83 @@
                     </tbody>
                 
             </table>
-         <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
-                <tbody><tr>
-                    <td>
-                        <sectionheading>News</sectionheading>
-                    </td>
-                </tr>
-            </tbody></table>
-            <table class="news-table" width="100%" align="center" border="0" style="text-align: justify">
-                <colgroup>
-                    <col width="15%">
-                    <col width="85%">
-                </colgroup>
+            <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
                 <tbody>
-                
-                <tr>
-                    <td valign="top" align="center"><tableheading>Jul. 2023</tableheading></td>
-                    <td>
-                        One paper was accepted by <strong>Ubicomp/ISWC 2023</strong>! &#x1F389 &#x1F389
-                    </td>
-                </tr>
-
-                <tr>
-                    <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
-                    <td>
-                        Graduated from BUPT, thanks all! &#127891 &#x1F389
-                    </td>
-                </tr>
-
-                <tr>
-                    <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
-                    <td>
-                        One paper is submitted to Ubicomp/ISWC 2023! Fingers crossed.
-                    </td>
-                </tr>
-                    
-                <tr>
-                    <td valign="top" align="center"><tableheading>Sept. 2022</tableheading></td>
-                    <td>
-                        I got a 4-year Ph.D. offer from the Dept. of CS, HKU, coming soon the next year! &#x1F389 &#x1F389
-                    </td>
-                </tr>
-                    
-                <tr>
-                    <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
-                    <td>
-                        One paper was accepted by <strong>Interspeech 2022</strong>! &#x1F389 &#x1F389
-                    </td>
-                </tr>
-                    
-                <tr>
-                    <td valign="top" align="center"><tableheading>Nov. 2021</tableheading></td>
-                    <td>
-                        I joined MARS Lab, IIIS, Tsinghua University as a research intern, advised by Prof. Hang Zhao and worked at Shanghai Qi Zhi Institute.
-                    </td>
-                </tr>
-                <tr>
-                    <td valign="top" align="center"><tableheading>Jun. 2020</tableheading></td>
-                    <td>
-                        I joined Intelligent Comm. Software &amp; Multimedia Key Lab as a research intern, School of CS, BUPT, advised by Prof. Anfu Zhou.
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <sectionheading>News</sectionheading>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
+            <div id="newsSection">
+                <table class="news-table" width="100%" align="center" border="0" style="text-align: justify">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="85%">
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <td valign="top" align="center"><tableheading>Jul. 2023</tableheading></td>
+                            <td>
+                                One paper was accepted by <strong>Ubicomp/ISWC 2023</strong>! &#x1F389 &#x1F389
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class="toggle-button" onclick="toggleNews()">EXPAND</button>
+
+                <div class="news-content" id="previousNews">
+                    <table class="news-table" width="100%" align="center" border="0" style="text-align: justify">
+                        <colgroup>
+                            <col width="15%">
+                            <col width="85%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
+                                <td>
+                                    Graduated from BUPT, thanks all! &#127891 &#x1F389
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
+                                <td>
+                                    One paper is submitted to Ubicomp/ISWC 2023! Fingers crossed.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center"><tableheading>Sept. 2022</tableheading></td>
+                                <td>
+                                    I got a 4-year Ph.D. offer from the Dept. of CS, HKU, coming soon the next year! &#x1F389 &#x1F389
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
+                                <td>
+                                    One paper was accepted by <strong>Interspeech 2022</strong>! &#x1F389 &#x1F389
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center"><tableheading>Nov. 2021</tableheading></td>
+                                <td>
+                                    I joined MARS Lab, IIIS, Tsinghua University as a research intern, advised by Prof. Hang Zhao and worked at Shanghai Qi Zhi Institute.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top" align="center"><tableheading>Jun. 2020</tableheading></td>
+                                <td>
+                                    I joined Intelligent Comm. Software & Multimedia Key Lab as a research intern, School of CS, BUPT, advised by Prof. Anfu Zhou.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <!-- Awards -->
-            <!-- 一月Jan，二月Feb，三月Mar，四月Apr，五月May，六月Jun，七月Jul，八月Aug，九月Sept，十月Oct，十一月Nov，十二月Dec   -->
                 <table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
                     <tbody><tr>
                         <td>
@@ -344,7 +399,7 @@
                 </table>
                 <table align="center">
                     <tbody>
-                        Reviewer: MobiSys '23, ATC '23, OSDI '23; TA: COMP1117
+                        Reviewer: MobiSys '23, ATC '23, OSDI '23; PC Member: ICPADS '24; TA: COMP1117
                     </tbody>
                 </table>
 
@@ -385,10 +440,10 @@
                      
                     </tr>
                     <tr>
-                        <td width="20%" align="center"><font size="3">Dept. of CS, HKU<br>2023 - present</font></td>
-                        <td width="20%" align="center"><font size="3">Shanghai Qi Zhi Institute<br>2021 - 2023</font></td>
-                        <td width="20%" align="center"><font size="3">IIIS, THU<br>2021 - 2023</font></td>
-                        <td width="20%" align="center"><font size="3">SICE, BUPT<br>2019 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">SCDS, HKU<br>Hong Kong<br>2023 - present</font></td>
+                        <td width="20%" align="center"><font size="3">Shanghai Qi Zhi Institute<br>Shanghai, China<br>2021 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">IIIS, THU<br>Beijing, China<br>2021 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">SICE, BUPT<br>Beijing, China<br>2019 - 2023</font></td>
                     </tr>
 
 
