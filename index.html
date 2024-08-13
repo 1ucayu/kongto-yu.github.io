@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luca Yu</title>
     <style>
+        /* Existing CSS */
         .news-content {
             display: none;
             text-align: justify;
@@ -24,8 +25,23 @@
         .toggle-button:hover {
             color: #0056b3;
         }
+
+        /* Dark Mode CSS */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        a.dark-mode {
+            color: #bb86fc;
+        }
+
+        a.dark-mode:hover {
+            color: #bb86fc;
+        }
     </style>
 </head>
+
 
 <html>
     <script>
@@ -43,6 +59,23 @@
         }
 
     </script>
+
+    <script>
+        function applyDarkMode() {
+            const now = new Date();
+            
+            const sunsetHour = 18; // 6:00 PM
+            const sunsetMinute = 30; // 6:30 PM
+
+            if (now.getHours() > sunsetHour || (now.getHours() === sunsetHour && now.getMinutes() >= sunsetMinute)) {
+                document.body.classList.add('dark-mode');
+                document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
+            }
+        }
+
+        window.onload = applyDarkMode;
+    </script>
+
 
     <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="“width=800”">
