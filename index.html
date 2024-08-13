@@ -7,6 +7,7 @@
     <link rel="shortcut icon" type="image/png" href="./Jiangtao Yu_files/hku.svg">
     <link href="./Jiangtao Yu_files/css" rel="stylesheet">
     <link href="./Jiangtao Yu_files/css(1)" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
     <style>
         /* Existing CSS */
         .news-content {
@@ -41,6 +42,22 @@
 
         a.dark-mode:hover {
             color: #bb86fc;
+        }
+
+        .title {
+            font-family: 'Courier', 'Courier New'; /* Typewriter font */
+            font-size: 48px; /* Larger font size for the title */
+            font-weight: normal;
+            margin: 0; /* Remove default margins */
+            text-align: center; /* Center the text */
+        }
+
+        .subtitle {
+            font-family: 'Courier', 'Courier New'; /* Ensure the same typewriter font */
+            font-size: 18px; /* Smaller font size for the subtitle */
+            font-weight: normal;
+            margin: 0; /* Remove default margins */
+            text-align: center; /* Center the text */
         }
 
         /* Additional CSS */
@@ -129,20 +146,25 @@
             fetch('https://ipinfo.io/json?token=ba7f81bd5739bd')
                 .then(response => response.json())
                 .then(data => {
-                    const countryCode = data.country;
-                    const flag = getEmojiFlag(countryCode);
+                    const countryCode = data.country || "Unknown"; // Fallback to "Unknown" if countryCode is not available
+                    const flag = countryCode !== "Unknown" ? getEmojiFlag(countryCode) : "";
 
                     document.getElementById('visitor-country').textContent = `${countryCode} ${flag}`;
 
-                    const loc = data.loc.split(',');
-                    const lat = parseFloat(loc[0]);
-                    const lon = parseFloat(loc[1]);
-
-                    applyDarkModeBasedOnLocation(lat, lon);
+                    const loc = data.loc ? data.loc.split(',') : null;
+                    if (loc) {
+                        const lat = parseFloat(loc[0]);
+                        const lon = parseFloat(loc[1]);
+                        applyDarkModeBasedOnLocation(lat, lon);
+                    } else {
+                        console.log("Location data not available, falling back to local time.");
+                        applyDarkModeBasedOnLocalTime();
+                    }
                 })
                 .catch(error => {
                     console.log("Error fetching location data:", error);
-                    // Fallback to local time-based dark mode
+                    // Fallback to "Unknown" and local time-based dark mode
+                    document.getElementById('visitor-country').textContent = "Unknown";
                     applyDarkModeBasedOnLocalTime();
                 });
         }
@@ -220,12 +242,12 @@
 <body>
 <table width="950" border="0" align="center" cellspacing="0" cellpadding="20">
     <tbody><tr>
-        <td halign="center">
-            <p align="center">
-                <font size="8"><TT>lucayu</TT></font><br><br>
-                <font size="4"><TT>[AT] connect [DOT] hku [DOT] hk</TT></font>
-            </p>
-        </td>
+        <td align="center">
+            <div>
+                <h1 class="title">lucayu</h1>
+                <p class="subtitle">[AT] connect [DOT] hku [DOT] hk</p>
+            </div>
+        </td>        
     </tr>
     <tr>
         <td>
