@@ -44,38 +44,65 @@
 
 
 <html>
-    <script>
-        function toggleNews() {
-            var newsContent = document.getElementById("previousNews");
-            var toggleButton = document.querySelector(".toggle-button");
 
-            if (newsContent.style.display === "none" || newsContent.style.display === "") {
-                newsContent.style.display = "block";
-                toggleButton.textContent = "COLLAPSE";
-            } else {
-                newsContent.style.display = "none";
-                toggleButton.textContent = "EXPAND";
-            }
+<script>
+    function applyDarkMode() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`)
+                .then(response => response.json())
+                .then(data => {
+                    const now = new Date();
+                    const sunset = new Date(data.results.sunset);
+                    const sunrise = new Date(data.results.sunrise);
+                    
+                    // Convert UTC sunset and sunrise to local time
+                    const sunsetHour = sunset.getHours();
+                    const sunsetMinute = sunset.getMinutes();
+                    const sunriseHour = sunrise.getHours();
+                    const sunriseMinute = sunrise.getMinutes();
+
+                    console.log("Current time:", now.getHours(), now.getMinutes());
+                    console.log("Sunset time:", sunsetHour, sunsetMinute);
+                    console.log("Sunrise time:", sunriseHour, sunriseMinute);
+
+                    if (
+                        (now.getHours() > sunsetHour || (now.getHours() === sunsetHour && now.getMinutes() >= sunsetMinute)) ||
+                        (now.getHours() < sunriseHour || (now.getHours() === sunriseHour && now.getMinutes() < sunriseMinute))
+                    ) {
+                        console.log("Applying dark mode.");
+                        document.body.classList.add('dark-mode');
+                        document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
+                    } else {
+                        console.log("Not applying dark mode.");
+                    }
+                })
+                .catch(error => console.log("Error fetching sunset data:", error));
+        }, function(error) {
+            console.log("Geolocation error:", error);
+        });
+    }
+
+    window.onload = applyDarkMode;
+</script>
+
+<script>
+    function toggleNews() {
+        var newsContent = document.getElementById("previousNews");
+        var toggleButton = document.querySelector(".toggle-button");
+
+        if (newsContent.style.display === "none" || newsContent.style.display === "") {
+            newsContent.style.display = "block";
+            toggleButton.textContent = "COLLAPSE";
+        } else {
+            newsContent.style.display = "none";
+            toggleButton.textContent = "EXPAND";
         }
+    }
 
-    </script>
-
-    <script>
-        function applyDarkMode() {
-            const now = new Date();
-            
-            const sunsetHour = 18; // 6:00 PM
-            const sunsetMinute = 30; // 6:30 PM
-
-            if (now.getHours() > sunsetHour || (now.getHours() === sunsetHour && now.getMinutes() >= sunsetMinute)) {
-                document.body.classList.add('dark-mode');
-                document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
-            }
-        }
-
-        window.onload = applyDarkMode;
-    </script>
-
+</script>
 
     <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="“width=800”">
@@ -464,31 +491,21 @@
                      
                     </tr>
                     <tr>
-                        <td width="20%" align="center"><font size="3">SCDS, HKU<br>Hong Kong<br>2023 - present</font></td>
-                        <td width="20%" align="center"><font size="3">Shanghai Qi Zhi Institute<br>Shanghai, China<br>2021 - 2023</font></td>
-                        <td width="20%" align="center"><font size="3">IIIS, THU<br>Beijing, China<br>2021 - 2023</font></td>
-                        <td width="20%" align="center"><font size="3">SICE, BUPT<br>Beijing, China<br>2019 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">SCDS, HKU<br>Hong Kong, HKG<br>2023 - present</font></td>
+                        <td width="20%" align="center"><font size="3">Shanghai Qi Zhi Institute<br>Shanghai, CHN<br>2021 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">IIIS, THU<br>Beijing, CHN<br>2021 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">SICE, BUPT<br>Beijing, CHN<br>2019 - 2023</font></td>
                     </tr>
 
 
                     </tbody>
                 </table>
 
-                
-                <!-- <table align="center">
-                    <tbody>
-                        <tr>
-                            <td width="50%" align="center">
-                                <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=6QKN_nC6F0jSdJhkZsNqotd_TbAMZjnB7SKlhAnRgCk"></script>
-                            </td>
-                        </tr>
-                    <tr>
-                        <td width="50%" align="center">Visitors from 🇭🇰 🇺🇸 🇨🇳 🇸🇬 🇯🇵 🇦🇺 🇹🇼 🇬🇧 🇩🇪 🇨🇦</td>
-                    </tr>
-                    </tbody>
-                </table> -->
         <mapbody>
-            <div class = "map-container">
+            <!-- <div class = "map-container">
+                <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=6QKN_nC6F0jSdJhkZsNqotd_TbAMZjnB7SKlhAnRgCk"></script>
+            </div> -->
+            <div id="globe-container" style="pointer-events: none;">
                 <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=6QKN_nC6F0jSdJhkZsNqotd_TbAMZjnB7SKlhAnRgCk"></script>
             </div>
             <tr>
