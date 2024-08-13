@@ -1,9 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- saved from url=(0029)https://www.jiangtaoyu.com/ -->
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luca Yu</title>
+    <link rel="shortcut icon" type="image/png" href="./Jiangtao Yu_files/hku.svg">
+    <link href="./Jiangtao Yu_files/css" rel="stylesheet">
+    <link href="./Jiangtao Yu_files/css(1)" rel="stylesheet" type="text/css">
     <style>
         /* Existing CSS */
         .news-content {
@@ -39,85 +42,8 @@
         a.dark-mode:hover {
             color: #bb86fc;
         }
-    </style>
-</head>
 
-
-<html>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
-
-    <script>
-        function applyDarkModeAndFetchInfo() {
-            // Fetch visitor's IP-based location data
-            fetch('https://ipinfo.io/json?token=ba7f81bd5739bd')
-                .then(response => response.json())
-                .then(data => {
-                    const countryCode = data.country;
-                    const flag = getEmojiFlag(countryCode);
-    
-                    document.getElementById('visitor-country').textContent = `${countryCode} ${flag}`;
-    
-                    const loc = data.loc.split(',');
-                    const lat = parseFloat(loc[0]);
-                    const lon = parseFloat(loc[1]);
-    
-                    const times = SunCalc.getTimes(new Date(), lat, lon);
-                    const now = new Date();
-    
-                    const sunset = times.sunset;
-                    const sunrise = times.sunrise;
-    
-                    console.log("Current time:", now.getHours(), now.getMinutes());
-                    console.log("Sunset time:", sunset.getHours(), sunset.getMinutes());
-                    console.log("Sunrise time:", sunrise.getHours(), sunrise.getMinutes());
-    
-                    if (
-                        (now > sunset) || (now < sunrise)
-                    ) {
-                        console.log("Applying dark mode.");
-                        document.body.classList.add('dark-mode');
-                        document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
-                    } else {
-                        console.log("Not applying dark mode.");
-                    }
-                })
-                .catch(error => console.log("Error fetching location data:", error));
-        }
-    
-        function getEmojiFlag(countryCode) {
-            return countryCode
-                .toUpperCase()
-                .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
-        }
-    
-        window.onload = applyDarkModeAndFetchInfo;
-    </script>
-    
-    
-
-    <script>
-        function toggleNews() {
-            var newsContent = document.getElementById("previousNews");
-            var toggleButton = document.querySelector(".toggle-button");
-
-            if (newsContent.style.display === "none" || newsContent.style.display === "") {
-                newsContent.style.display = "block";
-                toggleButton.textContent = "COLLAPSE";
-            } else {
-                newsContent.style.display = "none";
-                toggleButton.textContent = "EXPAND";
-            }
-        }
-
-    </script>
-
-    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="“width=800”">
-    <meta name="generator" content="HTML Tidy for Linux/x86 (vers 11 February 2007), see www.w3.org">
-    <link href="./Jiangtao Yu_files/css" rel="stylesheet">
-    
-    <style type="text/css">
-        /* Design Credits: Jon Barron and Abhishek Kar and Saurabh Gupta*/
+        /* Additional CSS */
         a {
             color: #1772d0;
             text-decoration: none;
@@ -186,14 +112,110 @@
             width: 10%; 
             height: 7%;
         }
-        
     </style>
-    <link rel="shortcut icon" type="image/png" href="./Jiangtao Yu_files/hku.svg">
-    <title>Luca Yu - Hong Kong</title>
-    
-    <link href="./Jiangtao Yu_files/css(1)" rel="stylesheet" type="text/css">
-    <script async="" defer="" src="./Jiangtao Yu_files/buttons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
 </head>
+<body>
+    <script>
+        function triggerReflow() {
+            document.body.style.display = 'none';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.display = '';
+        }
+    </script>
+
+    <script>
+        function applyDarkModeAndFetchInfo() {
+            fetch('https://ipinfo.io/json?token=ba7f81bd5739bd')
+                .then(response => response.json())
+                .then(data => {
+                    const countryCode = data.country;
+                    const flag = getEmojiFlag(countryCode);
+
+                    document.getElementById('visitor-country').textContent = `${countryCode} ${flag}`;
+
+                    const loc = data.loc.split(',');
+                    const lat = parseFloat(loc[0]);
+                    const lon = parseFloat(loc[1]);
+
+                    applyDarkModeBasedOnLocation(lat, lon);
+                })
+                .catch(error => {
+                    console.log("Error fetching location data:", error);
+                    // Fallback to local time-based dark mode
+                    applyDarkModeBasedOnLocalTime();
+                });
+        }
+
+        function applyDarkModeBasedOnLocation(lat, lon) {
+            const times = SunCalc.getTimes(new Date(), lat, lon);
+            const now = new Date();
+
+            const sunset = times.sunset;
+            const sunrise = times.sunrise;
+
+            console.log("Current time:", now.getHours(), now.getMinutes());
+            console.log("Sunset time:", sunset.getHours(), sunset.getMinutes());
+            console.log("Sunrise time:", sunrise.getHours(), sunrise.getMinutes());
+
+            if ((now > sunset) || (now < sunrise)) {
+                console.log("Applying dark mode.");
+                document.body.classList.add('dark-mode');
+                document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
+                triggerReflow();
+            } else {
+                console.log("Not applying dark mode.");
+            }
+        }
+
+        function applyDarkModeBasedOnLocalTime() {
+            const now = new Date();
+            const hour = now.getHours();
+
+            console.log("Applying fallback dark mode based on local time.");
+
+            // Apply dark mode if current time is between 6 PM and 7 AM
+            if (hour >= 18 || hour < 7) {
+                document.body.classList.add('dark-mode');
+                document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
+                triggerReflow();
+            }
+        }
+
+        function getEmojiFlag(countryCode) {
+            return countryCode
+                .toUpperCase()
+                .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
+        }
+
+        function triggerReflow() {
+            document.body.style.display = 'none';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.display = '';
+        }
+
+        window.onload = function() {
+            setTimeout(applyDarkModeAndFetchInfo, 100); // 100 milliseconds delay
+        };
+    </script>
+
+    
+    <script>
+        function toggleNews() {
+            var newsContent = document.getElementById("previousNews");
+            var toggleButton = document.querySelector(".toggle-button");
+
+            if (newsContent.style.display === "none" || newsContent.style.display === "") {
+                newsContent.style.display = "block";
+                toggleButton.textContent = "COLLAPSE";
+            } else {
+                newsContent.style.display = "none";
+                toggleButton.textContent = "EXPAND";
+            }
+        }
+    </script>
+</body>
+
 
 <body>
 <table width="950" border="0" align="center" cellspacing="0" cellpadding="20">
@@ -328,7 +350,7 @@
                         <tr>
                             <td valign="top" align="center"><tableheading>Jul. 2023</tableheading></td>
                             <td>
-                                One paper was accepted by <strong>Ubicomp/ISWC 2023</strong>! &#x1F389 &#x1F389
+                                One paper was accepted by <a href="https://www.ubicomp.org/ubicomp-iswc-2023/"><strong>Ubicomp/ISWC 2023</strong></a>! &#x1F389 &#x1F389
                             </td>
                         </tr>
                     </tbody>
@@ -350,12 +372,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
-                                <td>
-                                    One paper is submitted to Ubicomp/ISWC 2023! Fingers crossed.
-                                </td>
-                            </tr>
-                            <tr>
                                 <td valign="top" align="center"><tableheading>Sept. 2022</tableheading></td>
                                 <td>
                                     I got a 4-year Ph.D. offer from the Dept. of CS, HKU, coming soon the next year! &#x1F389 &#x1F389
@@ -364,7 +380,7 @@
                             <tr>
                                 <td valign="top" align="center"><tableheading>Jun. 2022</tableheading></td>
                                 <td>
-                                    One paper was accepted by <strong>Interspeech 2022</strong>! &#x1F389 &#x1F389
+                                    One paper was accepted by <a href="https://www.interspeech2022.org/"><strong>Interspeech 2022</strong></a>! &#x1F389 &#x1F389
                                 </td>
                             </tr>
                             <tr>
@@ -498,10 +514,10 @@
                      
                     </tr>
                     <tr>
-                        <td width="20%" align="center"><font size="3">SCDS, HKU<br>Hong Kong, HKG<br>2023 - present</font></td>
-                        <td width="20%" align="center"><font size="3">Shanghai Qi Zhi Institute<br>Shanghai, CHN<br>2021 - 2023</font></td>
-                        <td width="20%" align="center"><font size="3">IIIS, THU<br>Beijing, CHN<br>2021 - 2023</font></td>
-                        <td width="20%" align="center"><font size="3">SICE, BUPT<br>Beijing, CHN<br>2019 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">SCDS, HKU<br>Hong Kong, HK<br>2023 - present</font></td>
+                        <td width="20%" align="center"><font size="3">Shanghai Qi Zhi Institute<br>Shanghai, CN<br>2021 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">IIIS, THU<br>Beijing, CN<br>2021 - 2023</font></td>
+                        <td width="20%" align="center"><font size="3">SICE, BUPT<br>Beijing, CN<br>2019 - 2023</font></td>
                     </tr>
 
 
@@ -515,7 +531,7 @@
     
             <!-- <tr> -->
                 <!-- <div id="visitor-info">Visitors from: <span id="visitor-country"></span></div> -->
-                <div id="visitor-info">Visitor from: <span id="visitor-country"></span></div>
+                
             <!-- </tr> -->
         </mapbody>
 
@@ -524,9 +540,10 @@
                 <tbody>
                 <tr>
                     <td>
-                        <p align="right">
-                            💛💙 Template Credits: <a href="https://unnat.github.io/">Unnat</a> 
-                        </font></p></td>
+                        <div style="text-align: right;">
+                            <div id="visitor-info">Visitor from: <span id="visitor-country"></span></div>
+                            💛💙 Template Credits: <a href="https://unnat.github.io/">Unnat</a>
+                        </div>
                 </tr>
                 </tbody>
             </table>
