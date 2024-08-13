@@ -44,33 +44,35 @@
 
 
 <html>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
 
-<script>
-    function applyDarkMode() {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-
-            fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`)
+    <script>
+        function applyDarkModeAndFetchInfo() {
+            // Fetch visitor's IP-based location data
+            fetch('https://ipinfo.io/json?token=ba7f81bd5739bd')
                 .then(response => response.json())
                 .then(data => {
+                    const countryCode = data.country;
+                    const flag = getEmojiFlag(countryCode);
+    
+                    document.getElementById('visitor-country').textContent = `${countryCode} ${flag}`;
+    
+                    const loc = data.loc.split(',');
+                    const lat = parseFloat(loc[0]);
+                    const lon = parseFloat(loc[1]);
+    
+                    const times = SunCalc.getTimes(new Date(), lat, lon);
                     const now = new Date();
-                    const sunset = new Date(data.results.sunset);
-                    const sunrise = new Date(data.results.sunrise);
-                    
-                    // Convert UTC sunset and sunrise to local time
-                    const sunsetHour = sunset.getHours();
-                    const sunsetMinute = sunset.getMinutes();
-                    const sunriseHour = sunrise.getHours();
-                    const sunriseMinute = sunrise.getMinutes();
-
+    
+                    const sunset = times.sunset;
+                    const sunrise = times.sunrise;
+    
                     console.log("Current time:", now.getHours(), now.getMinutes());
-                    console.log("Sunset time:", sunsetHour, sunsetMinute);
-                    console.log("Sunrise time:", sunriseHour, sunriseMinute);
-
+                    console.log("Sunset time:", sunset.getHours(), sunset.getMinutes());
+                    console.log("Sunrise time:", sunrise.getHours(), sunrise.getMinutes());
+    
                     if (
-                        (now.getHours() > sunsetHour || (now.getHours() === sunsetHour && now.getMinutes() >= sunsetMinute)) ||
-                        (now.getHours() < sunriseHour || (now.getHours() === sunriseHour && now.getMinutes() < sunriseMinute))
+                        (now > sunset) || (now < sunrise)
                     ) {
                         console.log("Applying dark mode.");
                         document.body.classList.add('dark-mode');
@@ -79,30 +81,35 @@
                         console.log("Not applying dark mode.");
                     }
                 })
-                .catch(error => console.log("Error fetching sunset data:", error));
-        }, function(error) {
-            console.log("Geolocation error:", error);
-        });
-    }
-
-    window.onload = applyDarkMode;
-</script>
-
-<script>
-    function toggleNews() {
-        var newsContent = document.getElementById("previousNews");
-        var toggleButton = document.querySelector(".toggle-button");
-
-        if (newsContent.style.display === "none" || newsContent.style.display === "") {
-            newsContent.style.display = "block";
-            toggleButton.textContent = "COLLAPSE";
-        } else {
-            newsContent.style.display = "none";
-            toggleButton.textContent = "EXPAND";
+                .catch(error => console.log("Error fetching location data:", error));
         }
-    }
+    
+        function getEmojiFlag(countryCode) {
+            return countryCode
+                .toUpperCase()
+                .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
+        }
+    
+        window.onload = applyDarkModeAndFetchInfo;
+    </script>
+    
+    
 
-</script>
+    <script>
+        function toggleNews() {
+            var newsContent = document.getElementById("previousNews");
+            var toggleButton = document.querySelector(".toggle-button");
+
+            if (newsContent.style.display === "none" || newsContent.style.display === "") {
+                newsContent.style.display = "block";
+                toggleButton.textContent = "COLLAPSE";
+            } else {
+                newsContent.style.display = "none";
+                toggleButton.textContent = "EXPAND";
+            }
+        }
+
+    </script>
 
     <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="“width=800”">
@@ -502,15 +509,14 @@
                 </table>
 
         <mapbody>
-            <!-- <div class = "map-container">
-                <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=6QKN_nC6F0jSdJhkZsNqotd_TbAMZjnB7SKlhAnRgCk"></script>
-            </div> -->
-            <div id="globe-container" style="pointer-events: none;">
+            <div class = "map-container">
                 <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=6QKN_nC6F0jSdJhkZsNqotd_TbAMZjnB7SKlhAnRgCk"></script>
             </div>
-            <tr>
-                <td align="center">Visitors from 🇭🇰 🇺🇸 🇨🇳 🇸🇬 🇯🇵 🇦🇺 🇹🇼 🇬🇧 🇩🇪 🇨🇦 ...</td>
-            </tr>
+    
+            <!-- <tr> -->
+                <!-- <div id="visitor-info">Visitors from: <span id="visitor-country"></span></div> -->
+                <div id="visitor-info">Visitor from: <span id="visitor-country"></span></div>
+            <!-- </tr> -->
         </mapbody>
 
 
