@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luca Yu</title>
     <link rel="shortcut icon" type="image/png" href="./Jiangtao Yu_files/hku.svg">
-    <link href="./Jiangtao Yu_files/css" rel="stylesheet">
-    <link href="./Jiangtao Yu_files/css(1)" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <!-- <link href="./Jiangtao Yu_files/css" rel="stylesheet"> -->
+    <!-- <link href="./Jiangtao Yu_files/css(1)" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet"> -->
     <style>
         /* Existing CSS */
         .news-content {
@@ -30,18 +30,34 @@
             color: #0056b3;
         }
 
-        /* Dark Mode CSS */
-        body.dark-mode {
-            background-color: #121212;
-            color: #ffffff;
+        body.themed {
+            background-color: white;
+            color: black !important;
         }
 
-        a.dark-mode {
-            color: #bb86fc;
+        /* Specific styles for elements that should be purple in dark mode */
+        a.themed {
+            color: #bb86fc !important;
         }
 
-        a.dark-mode:hover {
-            color: #bb86fc;
+        a.themed:hover {
+            color: #bb86fc !important;
+        }
+
+
+        @media (prefers-color-scheme: dark) {
+            body.themed {
+                background-color: black;
+                color: white !important;
+            }
+            
+            a.themed {
+                color: #bb86fc !important;
+            }
+
+            a.themed:hover {
+                color: #bb86fc !important;
+            }
         }
 
         .title {
@@ -129,79 +145,30 @@
             width: 10%; 
             height: 7%;
         }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
-</head>
-<body>
-    <script>
-        function triggerReflow() {
-            document.body.style.display = 'none';
-            document.body.offsetHeight; // Trigger reflow
-            document.body.style.display = '';
+
+        body.themed, a.themed, p, h1, h2, h3, h4, h5, h6, td, th {
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
-    </script>
+
+    </style>
+</head>
+<body class="themed transition">
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script> -->
 
     <script>
-        function applyDarkModeAndFetchInfo() {
+        function fetchVisitorInfo() {
             fetch('https://ipinfo.io/json?token=ba7f81bd5739bd')
                 .then(response => response.json())
                 .then(data => {
-                    const countryCode = data.country || "Unknown"; // Fallback to "Unknown" if countryCode is not available
+                    const countryCode = data.country || "Unknown";
                     const flag = countryCode !== "Unknown" ? getEmojiFlag(countryCode) : "";
-
                     document.getElementById('visitor-country').textContent = `${countryCode} ${flag}`;
-
-                    const loc = data.loc ? data.loc.split(',') : null;
-                    if (loc) {
-                        const lat = parseFloat(loc[0]);
-                        const lon = parseFloat(loc[1]);
-                        applyDarkModeBasedOnLocation(lat, lon);
-                    } else {
-                        console.log("Location data not available, falling back to local time.");
-                        applyDarkModeBasedOnLocalTime();
-                    }
                 })
                 .catch(error => {
                     console.log("Error fetching location data:", error);
-                    // Fallback to "Unknown" and local time-based dark mode
                     document.getElementById('visitor-country').textContent = "Unknown";
-                    applyDarkModeBasedOnLocalTime();
                 });
-        }
-
-        function applyDarkModeBasedOnLocation(lat, lon) {
-            const times = SunCalc.getTimes(new Date(), lat, lon);
-            const now = new Date();
-
-            const sunset = times.sunset;
-            const sunrise = times.sunrise;
-
-            console.log("Current time:", now.getHours(), now.getMinutes());
-            console.log("Sunset time:", sunset.getHours(), sunset.getMinutes());
-            console.log("Sunrise time:", sunrise.getHours(), sunrise.getMinutes());
-
-            if ((now > sunset) || (now < sunrise)) {
-                console.log("Applying dark mode.");
-                document.body.classList.add('dark-mode');
-                document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
-                triggerReflow();
-            } else {
-                console.log("Not applying dark mode.");
-            }
-        }
-
-        function applyDarkModeBasedOnLocalTime() {
-            const now = new Date();
-            const hour = now.getHours();
-
-            console.log("Applying fallback dark mode based on local time.");
-
-            // Apply dark mode if current time is between 6 PM and 7 AM
-            if (hour >= 18 || hour < 7) {
-                document.body.classList.add('dark-mode');
-                document.querySelectorAll('a').forEach(a => a.classList.add('dark-mode'));
-                triggerReflow();
-            }
         }
 
         function getEmojiFlag(countryCode) {
@@ -210,16 +177,13 @@
                 .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
         }
 
-        function triggerReflow() {
-            document.body.style.display = 'none';
-            document.body.offsetHeight; // Trigger reflow
-            document.body.style.display = '';
-        }
 
         window.onload = function() {
-            setTimeout(applyDarkModeAndFetchInfo, 1); // 100 milliseconds delay
+            document.body.classList.add('themed');
+            fetchVisitorInfo(); // Fetch visitor's location info for display
         };
     </script>
+
 
     
     <script>
@@ -318,7 +282,7 @@
                             <heading>Radio2Text: Streaming Speech Recognition using mmWave Radio Signals</heading>
                         </a><br>
                             Running Zhao*, <strong>Jiang-Tao Yu*</strong>, Hang Zhao<sup>&dagger;</sup>, Edith C.H. Ngai<sup>&dagger;</sup><br>
-                            <em>Ubicomp/ISWC 2023 🇲🇽<br></em>
+                            Ubicomp/ISWC 2023 🇲🇽<br>
                             <a href="https://arxiv.org/pdf/2308.08125.pdf">paper</a>
                     </p></td>
                 </tr>
@@ -335,7 +299,7 @@
                                 <heading>Radio2Speech: High Quality Speech Recovery from Radio Frequency Signals</heading>
                             </a><br>
                                 Running Zhao, <strong>Jiang-Tao Yu</strong>, Tingle Li, Hang Zhao<sup>&dagger;</sup>, Edith C.H. Ngai<sup>&dagger;</sup><br>
-                                <em>Interspeech 2022 🇰🇷<br></em>
+                                Interspeech 2022 🇰🇷<br>
                                 <a href="https://www.isca-speech.org/archive/pdfs/interspeech_2022/zhao22i_interspeech.pdf">paper</a> |
                                 <a href="https://zhaorunning.github.io/Radio2Speech/">project</a> |
                                 <a href="https://twitter.com/PeachhBin/status/1540024457212743685">twitter</a> |
